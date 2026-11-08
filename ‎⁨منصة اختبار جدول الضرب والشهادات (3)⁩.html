@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة اختبار جدول الضرب المباشر والشهادات - أ. فاطمة شنيمر</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@500;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            font-variant-numeric: traditional;
+            user-select: none;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            padding: 12px;
+            padding-bottom: 90px; /* إضافة مسافة سفلية كبيرة لمنع تداخل شريط الجوال */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        header {
+            background: rgba(30, 41, 59, 0.95);
+            border-radius: 20px;
+            padding: 15px 20px;
+            border: 1px solid #334155;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .header-title-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-icon {
+            width: 45px;
+            height: 45px;
+            background: #f59e0b;
+            color: #0f172a;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 22px;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+        }
+
+        .card {
+            background: #1e293b;
+            border-radius: 24px;
+            padding: 24px;
+            border: 1px solid #334155;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            text-align: right;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #cbd5e1;
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            background: #020617;
+            border: 2px solid #334155;
+            border-radius: 14px;
+            padding: 12px 16px;
+            color: #fcd34d;
+            font-weight: 800;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 8px;
+            max-height: 240px;
+            overflow-y: auto;
+            background: #020617;
+            padding: 12px;
+            border-radius: 16px;
+            border: 2px solid #334155;
+            margin-top: 6px;
+        }
+
+        .btn-student-chip {
+            background: #0f172a;
+            border: 1.5px solid #334155;
+            color: #cbd5e1;
+            padding: 10px 6px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .btn-student-chip.selected {
+            background: #f59e0b;
+            color: #0f172a;
+            border-color: #fcd34d;
+            font-weight: 900;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+        }
+
+        .gender-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .gender-option {
+            background: #020617;
+            border: 2px solid #334155;
+            border-radius: 14px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 800;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .gender-option.selected {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: #f59e0b;
+            color: #fcd34d;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background: #f59e0b;
+            color: #0f172a;
+            border: none;
+            border-radius: 16px;
+            font-weight: 900;
+            font-size: 17px;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(245, 158, 11, 0.3);
+            margin-top: 10px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #020617;
+            padding: 10px 18px;
+            border-radius: 14px;
+            border: 1px solid #1e293b;
+            margin-bottom: 20px;
+        }
+
+        .equation-card {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.05) 100%);
+            border: 2px solid rgba(245, 158, 11, 0.4);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .equation-text {
+            font-size: 42px;
+            font-weight: 900;
+            color: #fcd34d;
+        }
+
+        .keypad-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-width: 360px;
+            margin: 15px auto;
+        }
+
+        .btn-key {
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #fcd34d;
+            font-weight: 900;
+            font-size: 20px;
+            padding: 12px 0;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .certificate-border {
+            border: 10px double #b45309;
+            background: #ffffff;
+            color: #0f172a;
+            border-radius: 24px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+
+        .cert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #d97706;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+
+        .cert-title {
+            font-size: 24px;
+            font-weight: 900;
+            color: #b45309;
+            margin-bottom: 4px;
+        }
+
+        .battery-box {
+            border: 4px solid #0f172a;
+            border-radius: 14px;
+            background: #f8fafc;
+            padding: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .battery-cap {
+            width: 26px;
+            height: 10px;
+            background: #0f172a;
+            border-radius: 4px 4px 0 0;
+            margin: 0 auto -2px auto;
+        }
+
+        .battery-seg {
+            border: 1px solid #0f172a;
+            border-radius: 6px;
+            padding: 3px 6px;
+            font-size: 9px;
+            font-weight: 900;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0.25;
+            filter: grayscale(100%);
+            color: #0f172a;
+        }
+
+        .battery-seg.active { opacity: 1; filter: grayscale(0%); }
+
+        .seg-9 { background: #a7f3d0; }
+        .seg-8 { background: #bae6fd; }
+        .seg-7 { background: #fef08a; }
+        .seg-6 { background: #e9d5ff; }
+        .seg-3 { background: #fef9c3; }
+        .seg-0 { background: #c7d2fe; }
+        .seg-10 { background: #fecdd3; }
+        .seg-5 { background: #99f6e4; }
+        .seg-4 { background: #e2e8f0; }
+        .seg-2 { background: #ffedd5; }
+
+        .hidden { display: none !important; }
+
+        @media print {
+            body * { visibility: hidden; }
+            .printable-area, .printable-area * { visibility: visible !important; }
+            .printable-area { position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- HEADER NAVBAR -->
+        <header>
+            <div class="header-title-box">
+                <div class="header-icon">🎓</div>
+                <div>
+                    <h1 style="font-size: 18px; font-weight: 900; color: #fcd34d;">منصة اختبار جدول الضرب وشحن البطارية والشهادات</h1>
+                    <p style="font-size: 12px; color: #94a3b8;">المعلمة: <strong style="color: #f59e0b;">فاطمة شنيمر</strong></p>
+                </div>
+            </div>
+        </header>
+
+        <!-- STUDENT SECTION -->
+        <div id="studentSection">
+            
+            <!-- SETUP CARD -->
+            <div id="studentSetupCard" class="card" style="max-width: 550px; margin: 0 auto; text-align: center;">
+                <div style="width: 55px; height: 55px; background: rgba(245, 158, 11, 0.2); color: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto; font-size: 26px;">⚡</div>
+                <h2 style="font-size: 20px; font-weight: 900; color: #fcd34d; margin-bottom: 4px;">أهلاً بك في تحدي شحن البطارية</h2>
+                <p style="font-size: 12px; color: #94a3b8; margin-bottom: 16px;">اختر فصلك، ثم انقر على اسمك واختبر جدول الضرب بدون تكرار الجمل!</p>
+
+                <!-- Class Selection -->
+                <div class="form-group">
+                    <label class="form-label">اختر الفصل:</label>
+                    <select id="classSelect" onchange="onClassChange()" class="form-control">
+                        <option value="3/2" selected>فصل (٣ / ٢)</option>
+                        <option value="3/3">فصل (٣ / ٣)</option>
+                        <option value="3/4">فصل (٣ / ٤)</option>
+                    </select>
+                </div>
+
+                <!-- Student Search / Filter Input -->
+                <div class="form-group">
+                    <label class="form-label">ابحث عن اسمك أو اختره مباشرة:</label>
+                    <input type="text" id="searchInput" oninput="filterStudents()" placeholder="اكتب اسمك للبحث السريع..." class="form-control" style="margin-bottom: 8px; color: #ffffff;">
+                    <div id="studentButtonsGrid" class="students-grid"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">الجنس (لتخصيص الشهادة):</label>
+                    <div class="gender-grid">
+                        <div id="btnBoy" onclick="setGender('boy')" class="gender-option selected">
+                            <span>👦 طالب</span>
+                        </div>
+                        <div id="btnGirl" onclick="setGender('girl')" class="gender-option">
+                            <span>👧 طالبة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">اختر جدول الضرب المراد اختباره:</label>
+                    <select id="studentTableSelect" class="form-control">
+                        <option value="0">جدول (٠ و ١) - [١١ جملة]</option>
+                        <option value="2" selected>جدول (٢) - [٩ جمل]</option>
+                        <option value="3">جدول (٣) - [٧ جمل]</option>
+                        <option value="4">جدول (٤) - [٨ جمل]</option>
+                        <option value="5">جدول (٥) - [٧ جمل]</option>
+                        <option value="6">جدول (٦) - [٥ جمل]</option>
+                        <option value="7">جدول (٧) - [٤ جمل]</option>
+                        <option value="8">جدول (٨) - [٣ جمل]</option>
+                        <option value="9">جدول (٩) - [جملتان]</option>
+                        <option value="10">جدول (١٠) - [٩ جمل]</option>
+                    </select>
+                </div>
+
+                <button onclick="startQuiz()" class="btn-primary" id="startBtnText">ابدأ الاختبار الآن 👦</button>
+            </div>
+
+            <!-- QUIZ RUNNING CARD -->
+            <div id="quizContainer" class="card hidden" style="max-width: 550px; margin: 0 auto; text-align: center; padding-bottom: 30px;">
+                <div class="quiz-header">
+                    <span style="font-size: 12px; color: #94a3b8;">السؤال: <strong id="questionProgress" style="color: #fcd34d; font-size: 15px;">١ / ٩</strong></span>
+                    <span id="quizStudentBadge" style="font-size: 12px; color: #cbd5e1; font-weight: 700;">الاسم: ---</span>
+                </div>
+
+                <div class="equation-card" style="padding: 15px; margin-bottom: 15px;">
+                    <div id="equationText" class="equation-text" style="font-size: 36px;">١ × ٢ = ؟</div>
+                </div>
+
+                <div style="margin-bottom: 10px;">
+                    <input type="text" id="answerInput" readonly placeholder="الناتج..." style="width: 140px; height: 46px; text-align: center; font-size: 26px; font-weight: 900; background: #020617; border: 2px solid #f59e0b; color: #fcd34d; border-radius: 14px; outline: none;">
+                </div>
+
+                <div class="keypad-grid">
+                    <button onclick="pressKey('١')" class="btn-key">١</button>
+                    <button onclick="pressKey('٢')" class="btn-key">٢</button>
+                    <button onclick="pressKey('٣')" class="btn-key">٣</button>
+                    <button onclick="pressKey('٤')" class="btn-key">٤</button>
+                    <button onclick="pressKey('٥')" class="btn-key">٥</button>
+                    <button onclick="pressKey('٦')" class="btn-key">٦</button>
+                    <button onclick="pressKey('٧')" class="btn-key">٧</button>
+                    <button onclick="pressKey('٨')" class="btn-key">٨</button>
+                    <button onclick="pressKey('٩')" class="btn-key">٩</button>
+                    <button onclick="pressKey('٠')" class="btn-key">٠</button>
+                </div>
+
+                <div style="display: flex; gap: 10px; max-width: 360px; margin: 10px auto 0 auto;">
+                    <button onclick="clearKey()" style="flex: 1; padding: 12px; background: #334155; color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer;">مسح</button>
+                    <button onclick="submitAnswer()" style="flex: 2; padding: 12px; background: #10b981; color: #020617; border: none; border-radius: 12px; font-weight: 900; font-size: 16px; cursor: pointer;">تأكيد الإجابة ✔️</button>
+                </div>
+            </div>
+
+            <!-- RESULT CARD & CERTIFICATE -->
+            <div id="quizResultCard" class="hidden" style="max-width: 750px; margin: 0 auto;">
+                
+                <div class="card" style="text-align: center;">
+                    <h2 id="resultTitleText" style="font-size: 24px; font-weight: 900; color: #fcd34d; margin-bottom: 6px;">ممتاز يا بطل! 🎉</h2>
+                    <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 15px;">تم إتمام الاختبار بنجاح، يمكنك طباعة الشهادة أو الاحتفاظ بها! 🎓</p>
+
+                    <div style="display: flex; justify-content: space-around; background: #020617; padding: 15px; border-radius: 16px; margin-bottom: 15px;">
+                        <div>
+                            <span style="font-size: 11px; color: #94a3b8; display: block;">الدرجة النهائية:</span>
+                            <span id="finalScoreText" style="font-size: 24px; font-weight: 900; color: #10b981;">١٠ / ١٠</span>
+                        </div>
+                        <div>
+                            <span style="font-size: 11px; color: #94a3b8; display: block;">التقدير المستحق:</span>
+                            <span id="finalGradeBadge" style="font-size: 16px; font-weight: 900; color: #f59e0b;">ممتاز جداً 🌟</span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                        <button onclick="window.print()" style="padding: 12px 20px; background: #10b981; color: #020617; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">طباعة الشهادة والبطارية 🎓</button>
+                        <button onclick="resetQuiz()" style="padding: 12px 20px; background: #f59e0b; color: #020617; border: none; border-radius: 12px; font-weight: 900; cursor: pointer;">اختبار جدول آخر ⚡</button>
+                    </div>
+                </div>
+
+                <!-- CERTIFICATE DISPLAY (STANDARD) -->
+                <div id="certificateContainer" class="printable-area certificate-border">
+                    <div class="cert-header">
+                        <div style="text-align: right;">
+                            <span style="font-size: 11px; font-weight: 700; color: #b45309; display: block;">المملكة العربية السعودية</span>
+                            <span style="font-size: 11px; font-weight: 700; color: #475569; display: block;">مدرسة التميز والأبطال</span>
+                        </div>
+                        <div style="font-size: 30px; color: #d97706;">🏅</div>
+                        <div style="text-align: left;">
+                            <span style="font-size: 11px; font-weight: 700; color: #b45309; display: block;">المعلمة</span>
+                            <span style="font-size: 13px; font-weight: 900; color: #78350f; display: block;">فاطمة شنيمر</span>
+                        </div>
+                    </div>
+
+                    <h1 class="cert-title">شهادة فخر وتفوق 🏆</h1>
+                    <p style="font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 15px;">في إتقان جدول الضرب وشحن بطارية الإنجاز</p>
+
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 15px; align-items: center; text-align: right;">
+                        <div>
+                            <p style="font-size: 14px; font-weight: 700; line-height: 1.6; margin-bottom: 10px;">
+                                يسر المعلمة <strong style="color: #b45309;">فاطمة شنيمر</strong> أن تمنح هذه الشهادة إلى:<br>
+                                <strong id="certStudentName" style="font-size: 22px; color: #78350f; border-bottom: 2px solid #f59e0b; display: inline-block; margin-top: 5px;">---</strong>
+                            </p>
+                            <p style="font-size: 12px; color: #334155; font-weight: 700; line-height: 1.5;" id="certMessageBody">
+                                اجتاز اختبار جدول الضرب بنجاح واقتدار.
+                            </p>
+                        </div>
+
+                        <!-- BATTERY DISPLAY -->
+                        <div style="text-align: center;">
+                            <div class="battery-cap"></div>
+                            <div class="battery-box">
+                                <div id="seg-9" class="battery-seg seg-9"><span>جدول ٩</span><span>وصلت للقمة 🏆</span></div>
+                                <div id="seg-8" class="battery-seg seg-8"><span>جدول ٨</span><span>شكراً لتميزك 🔋</span></div>
+                                <div id="seg-7" class="battery-seg seg-7"><span>جدول ٧</span><span>فخورة بإنجازك 🎖️</span></div>
+                                <div id="seg-6" class="battery-seg seg-6"><span>جدول ٦</span><span>أنت ذكي 💡</span></div>
+                                <div id="seg-3" class="battery-seg seg-3"><span>جدول ٣</span><span>ممتاز 👑</span></div>
+                                <div id="seg-0" class="battery-seg seg-0"><span>جدول ٠ و ١</span><span>فخورة بك ✔️</span></div>
+                                <div id="seg-10" class="battery-seg seg-10"><span>جدول ١٠</span><span>أنت متميز ✨</span></div>
+                                <div id="seg-5" class="battery-seg seg-5"><span>جدول ٥</span><span>أنت مبدع ⭐️</span></div>
+                                <div id="seg-4" class="battery-seg seg-4"><span>جدول ٤</span><span>أنت رائع ⭐</span></div>
+                                <div id="seg-2" class="battery-seg seg-2"><span>جدول ٢</span><span>احسنت 😍</span></div>
+                            </div>
+                            <span style="font-size: 9px; font-weight: 800; color: #475569; display: block; margin-top: 4px;">الشحن: <strong id="batteryPercentText" style="color: #047857;">١٠٪</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FULL BATTERY ULTIMATE CROWN CERTIFICATE (100% COMPLETE) -->
+                <div id="fullBatteryCertContainer" class="printable-area hidden" style="border: 12px gold double; background: linear-gradient(135deg, #fffbe0 0%, #ffffff 50%, #fff7ed 100%); color: #0f172a; border-radius: 28px; padding: 30px; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(217, 119, 6, 0.2); margin-top: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 3px double #d97706; padding-bottom: 12px; margin-bottom: 15px;">
+                        <div style="text-align: right;">
+                            <span style="font-size: 12px; font-weight: 800; color: #b45309; display: block;">المملكة العربية السعودية</span>
+                            <span style="font-size: 11px; font-weight: 700; color: #475569; display: block;">مدرسة التميز والأبطال</span>
+                        </div>
+                        <div style="font-size: 45px;">👑</div>
+                        <div style="text-align: left;">
+                            <span style="font-size: 11px; font-weight: 700; color: #b45309; display: block;">المعلمة</span>
+                            <span style="font-size: 14px; font-weight: 900; color: #78350f; display: block;">فاطمة شنيمر</span>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(245, 158, 11, 0.15); border: 2px dashed #f59e0b; border-radius: 16px; padding: 6px 15px; display: inline-block; margin-bottom: 12px;">
+                        <span style="font-size: 13px; font-weight: 900; color: #b45309;">⚡ أسطورة جدول الضرب - بطارية شحن ١٠٠٪ كلياً ⚡</span>
+                    </div>
+
+                    <h1 style="font-size: 28px; font-weight: 900; color: #b45309; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); margin-bottom: 6px;">👑 وسام التاج الذهبي في التميز 👑</h1>
+                    <p style="font-size: 13px; font-weight: 800; color: #047857; margin-bottom: 16px;">مبارك! لقد قمت بإتقان جميع جداول الضرب واكتملت بطاريتك بالكامل 🎉</p>
+
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; align-items: center; text-align: right; background: rgba(255,255,255,0.8); padding: 15px; border-radius: 18px; border: 1px solid #fef3c7;">
+                        <div>
+                            <p style="font-size: 15px; font-weight: 800; line-height: 1.8; color: #1e293b;">
+                                تزف المعلمة <strong style="color: #b45309; font-size: 17px;">فاطمة شنيمر</strong> أجمل التهاني والتبريكات إلى:<br>
+                                <strong id="fullCertStudentName" style="font-size: 24px; color: #78350f; border-bottom: 3px solid #f59e0b; display: inline-block; margin: 6px 0; font-weight: 900;">---</strong>
+                            </p>
+                            <p style="font-size: 13px; color: #334155; font-weight: 700; line-height: 1.6;" id="fullCertMessageBody">
+                                لعبقريتك الاستثنائية وجهدك الرائع في إتقان كافة جداول الضرب (من ٠ حتى ١٠) وشحن بطارية المعرفة كاملة بنسبة ١٠٠٪ 🌟.
+                            </p>
+                        </div>
+
+                        <!-- FULL BATTERY VISUAL -->
+                        <div style="text-align: center;">
+                            <div style="width: 28px; height: 10px; background: #d97706; border-radius: 4px 4px 0 0; margin: 0 auto -2px auto;"></div>
+                            <div style="border: 4px solid #b45309; border-radius: 14px; background: #ecfdf5; padding: 6px; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);">
+                                <div style="background: #10b981; color: white; font-weight: 900; font-size: 10px; padding: 4px; border-radius: 6px;">بطارية مكتملة 100% ⚡</div>
+                                <div style="font-size: 32px; margin: 4px 0;">🏆</div>
+                                <div style="font-size: 10px; font-weight: 900; color: #047857;">ملك / ملكة الرياضيات 👑</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Database of Students organized by Class
+        const studentsDatabase = {
+            "3/2": [
+                { name: "ابراهيم", gender: "boy" }, { name: "اسامة", gender: "boy" }, { name: "البراء", gender: "boy" },
+                { name: "الياس", gender: "boy" }, { name: "اياد ابراهيم", gender: "boy" }, { name: "اياد عمر", gender: "boy" },
+                { name: "بتال", gender: "boy" }, { name: "بسام", gender: "boy" }, { name: "تركي", gender: "boy" },
+                { name: "خالد", gender: "boy" }, { name: "راكان", gender: "boy" }, { name: "رعد", gender: "boy" },
+                { name: "رواد عقيل", gender: "boy" }, { name: "رواد نامس", gender: "boy" }, { name: "سعد", gender: "boy" },
+                { name: "سعود", gender: "boy" }, { name: "سند", gender: "boy" }, { name: "طارق", gender: "boy" },
+                { name: "عبدالحكيم", gender: "boy" }, { name: "عبدالرحمن", gender: "boy" }, { name: "عز", gender: "boy" },
+                { name: "علي", gender: "boy" }, { name: "عناد", gender: "boy" }, { name: "فادي", gender: "boy" },
+                { name: "فيصل", gender: "boy" }, { name: "قصي", gender: "boy" }, { name: "كرم", gender: "boy" },
+                { name: "محمد مدحلي", gender: "boy" }, { name: "محمد محاصي", gender: "boy" }, { name: "محمد ثامر زيلعي", gender: "boy" },
+                { name: "محمد حسن مجرشي", gender: "boy" }, { name: "محمد سلطان حكمي", gender: "boy" }, { name: "محمد عادل محنشي", gender: "boy" },
+                { name: "محمد فهد خرمي", gender: "boy" }, { name: "محمد صالح اليامي", gender: "boy" }, { name: "مشعل", gender: "boy" },
+                { name: "معاذ", gender: "boy" }, { name: "منصور", gender: "boy" }, { name: "يامن", gender: "boy" },
+                { name: "ياسر", gender: "boy" }, { name: "ثامر", gender: "boy" }, { name: "ريان", gender: "boy" }
+            ],
+            "3/3": [
+                { name: "ابتسام", gender: "girl" }, { name: "ارجوان", gender: "girl" }, { name: "ألين رمزي", gender: "girl" },
+                { name: "ألين فهد", gender: "girl" }, { name: "ألين محمد", gender: "girl" }, { name: "أميره", gender: "girl" },
+                { name: "ايلان", gender: "girl" }, { name: "ايناس", gender: "girl" }, { name: "جوري", gender: "girl" },
+                { name: "جيانا", gender: "girl" }, { name: "دولت", gender: "girl" }, { name: "روين", gender: "girl" },
+                { name: "سما", gender: "girl" }, { name: "شادن", gender: "girl" }, { name: "غيم", gender: "girl" },
+                { name: "فاطمة زعقان", gender: "girl" }, { name: "فاطمة عبده", gender: "girl" }, { name: "كيان هتان", gender: "girl" },
+                { name: "كيان اسماعيل", gender: "girl" }, { name: "لانا", gender: "girl" }, { name: "لجين", gender: "girl" },
+                { name: "لورين", gender: "girl" }, { name: "لوليا", gender: "girl" }, { name: "ليان", gender: "girl" },
+                { name: "لين", gender: "girl" }, { name: "ليندا العيسي", gender: "girl" }, { name: "ليندا عسيري", gender: "girl" },
+                { name: "ماريا", gender: "girl" }, { name: "منال", gender: "girl" }, { name: "نبيها", gender: "girl" },
+                { name: "نور العنزي", gender: "girl" }, { name: "نور بحيص", gender: "girl" }, { name: "وفاء", gender: "girl" },
+                { name: "حور", gender: "girl" }, { name: "ضي", gender: "girl" }, { name: "غند", gender: "girl" },
+                { name: "روز", gender: "girl" }, { name: "فرح", gender: "girl" }, { name: "ترف", gender: "girl" },
+                { name: "ريسال", gender: "girl" }
+            ],
+            "3/4": [
+                { name: "أرجوان", gender: "girl" }, { name: "أليانا", gender: "girl" }, { name: "أمل", gender: "girl" },
+                { name: "أنفال", gender: "girl" }, { name: "ايلان", gender: "girl" }, { name: "تالا", gender: "girl" },
+                { name: "تالين", gender: "girl" }, { name: "تولاي", gender: "girl" }, { name: "تيالا", gender: "girl" },
+                { name: "دانا حدادي", gender: "girl" }, { name: "دانه زعقان", gender: "girl" }, { name: "ديم", gender: "girl" },
+                { name: "دالين", gender: "girl" }, { name: "دينا", gender: "girl" }, { name: "ذات", gender: "girl" },
+                { name: "رنا", gender: "girl" }, { name: "ريم", gender: "girl" }, { name: "ساره", gender: "girl" },
+                { name: "سعاد", gender: "girl" }, { name: "سيلين", gender: "girl" }, { name: "شدى", gender: "girl" },
+                { name: "عبير", gender: "girl" }, { name: "عزيزة", gender: "girl" }, { name: "غاده", gender: "girl" },
+                { name: "فرح", gender: "girl" }, { name: "كيان أبكر", gender: "girl" }, { name: "كيان سهلي", gender: "girl" },
+                { name: "لانا", gender: "girl" }, { name: "ليلى", gender: "girl" }, { name: "ملاذ", gender: "girl" },
+                { name: "ميلا حوباني", gender: "girl" }, { name: "ميلا عبدالرحمن", gender: "girl" }, { name: "نوران", gender: "girl" },
+                { name: "هناء", gender: "girl" }, { name: "وتين شرواني", gender: "girl" }, { name: "وتين مسملي", gender: "girl" },
+                { name: "وريف", gender: "girl" }, { name: "وسن", gender: "girl" }, { name: "وفاء", gender: "girl" },
+                { name: "ود", gender: "girl" }
+            ]
+        };
+
+        // الجمل المحددة بدقة لكل جدول بناءً على الطلب
+        const exactTableEquations = {
+            0: [
+                { num1: 1, num2: 9 }, { num1: 0, num2: 6 }, { num1: 3, num2: 0 },
+                { num1: 1, num2: 8 }, { num1: 4, num2: 1 }, { num1: 0, num2: 7 },
+                { num1: 6, num2: 1 }, { num1: 0, num2: 5 }, { num1: 1, num2: 3 },
+                { num1: 2, num2: 0 }, { num1: 10, num2: 1 }
+            ],
+            2: [
+                { num1: 2, num2: 9 }, { num1: 6, num2: 2 }, { num1: 2, num2: 4 },
+                { num1: 3, num2: 2 }, { num1: 7, num2: 2 }, { num1: 2, num2: 5 },
+                { num1: 8, num2: 2 }, { num1: 2, num2: 2 }, { num1: 2, num2: 1 }
+            ],
+            3: [
+                { num1: 3, num2: 3 }, { num1: 9, num2: 3 }, { num1: 3, num2: 6 },
+                { num1: 3, num2: 7 }, { num1: 8, num2: 3 }, { num1: 3, num2: 0 },
+                { num1: 5, num2: 3 }
+            ],
+            4: [
+                { num1: 4, num2: 4 }, { num1: 9, num2: 4 }, { num1: 3, num2: 4 },
+                { num1: 4, num2: 6 }, { num1: 5, num2: 4 }, { num1: 4, num2: 8 },
+                { num1: 7, num2: 4 }, { num1: 0, num2: 4 }
+            ],
+            5: [
+                { num1: 5, num2: 3 }, { num1: 6, num2: 5 }, { num1: 5, num2: 9 },
+                { num1: 7, num2: 5 }, { num1: 8, num2: 5 }, { num1: 5, num2: 5 },
+                { num1: 1, num2: 5 }
+            ],
+            6: [
+                { num1: 6, num2: 6 }, { num1: 9, num2: 6 }, { num1: 6, num2: 7 },
+                { num1: 6, num2: 8 }, { num1: 6, num2: 1 }
+            ],
+            7: [
+                { num1: 7, num2: 7 }, { num1: 9, num2: 7 }, { num1: 8, num2: 7 },
+                { num1: 7, num2: 1 }
+            ],
+            8: [
+                { num1: 8, num2: 8 }, { num1: 9, num2: 8 }, { num1: 0, num2: 8 }
+            ],
+            9: [
+                { num1: 9, num2: 9 }, { num1: 9, num2: 0 }
+            ],
+            10: [
+                { num1: 10, num2: 10 }, { num1: 3, num2: 10 }, { num1: 10, num2: 6 },
+                { num1: 9, num2: 10 }, { num1: 10, num2: 8 }, { num1: 10, num2: 7 },
+                { num1: 10, num2: 2 }, { num1: 4, num2: 10 }, { num1: 10, num2: 5 }
+            ]
+        };
+
+        const arDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+        function toAr(n) { return (n === undefined || n === null) ? '' : n.toString().replace(/[0-9]/g, d => arDigits[d]); }
+
+        let currentClass = '3/2';
+        let studentGender = 'boy';
+        let studentName = '';
+        let selectedTable = 2;
+        let currentQuestionIndex = 1;
+        let correctAnswersCount = 0;
+        let questionsList = [];
+        let currentQuestion = null;
+
+        function onClassChange() {
+            currentClass = document.getElementById('classSelect').value;
+            document.getElementById('searchInput').value = '';
+            initStudentButtons();
+        }
+
+        function initStudentButtons() {
+            const grid = document.getElementById('studentButtonsGrid');
+            grid.innerHTML = '';
+            const list = studentsDatabase[currentClass] || [];
+            
+            list.forEach(st => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'btn-student-chip';
+                btn.textContent = st.name;
+                btn.onclick = function() {
+                    document.querySelectorAll('.btn-student-chip').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    studentName = st.name;
+                    setGender(st.gender);
+                };
+                grid.appendChild(btn);
+            });
+        }
+
+        function filterStudents() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const chips = document.querySelectorAll('.btn-student-chip');
+            chips.forEach(chip => {
+                if (chip.textContent.toLowerCase().includes(query)) {
+                    chip.style.display = 'block';
+                } else {
+                    chip.style.display = 'none';
+                }
+            });
+        }
+
+        function setGender(g) {
+            studentGender = g;
+            document.getElementById('btnBoy').className = g === 'boy' ? 'gender-option selected' : 'gender-option';
+            document.getElementById('btnGirl').className = g === 'girl' ? 'gender-option selected' : 'gender-option';
+            document.getElementById('startBtnText').textContent = g === 'boy' ? 'ابدأ الاختبار الآن 👦' : 'ابدأي الاختبار الآن 👧';
+        }
+
+        function startQuiz() {
+            if (!studentName) {
+                alert('يرجى اختيار أو النقر على اسمك من قائمة الأسماء أولاً!');
+                return;
+            }
+
+            selectedTable = parseInt(document.getElementById('studentTableSelect').value, 10);
+            currentQuestionIndex = 1;
+            correctAnswersCount = 0;
+            
+            // خلط جمل الجدول المحدد فقط بدون تكرار أو زيادة
+            const rawQuestions = exactTableEquations[selectedTable] || [];
+            questionsList = [...rawQuestions].sort(() => Math.random() - 0.5);
+
+            document.getElementById('studentSetupCard').classList.add('hidden');
+            document.getElementById('quizContainer').classList.remove('hidden');
+            document.getElementById('quizStudentBadge').textContent = `الاسم: ${studentName} (${currentClass})`;
+
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            currentQuestion = questionsList[currentQuestionIndex - 1];
+            document.getElementById('questionProgress').textContent = `${toAr(currentQuestionIndex)} / ${toAr(questionsList.length)}`;
+            
+            document.getElementById('equationText').textContent = `${toAr(currentQuestion.num1)} × ${toAr(currentQuestion.num2)} = ؟`;
+            document.getElementById('answerInput').value = '';
+        }
+
+        function pressKey(k) {
+            document.getElementById('answerInput').value += k;
+        }
+
+        function clearKey() {
+            document.getElementById('answerInput').value = '';
+        }
+
+        function submitAnswer() {
+            try {
+                const val = document.getElementById('answerInput').value.trim();
+                
+                let userNum = NaN;
+                if (val !== "") {
+                    const cleanVal = val.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+                    userNum = parseInt(cleanVal, 10);
+                }
+
+                if (currentQuestion) {
+                    const expectedAns = currentQuestion.num1 * currentQuestion.num2;
+                    if (!isNaN(userNum) && userNum === expectedAns) {
+                        correctAnswersCount++;
+                    }
+                }
+
+                if (currentQuestionIndex < questionsList.length) {
+                    currentQuestionIndex++;
+                    loadQuestion();
+                } else {
+                    finishQuiz();
+                }
+            } catch (err) {
+                console.error("Error submitting answer:", err);
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            document.getElementById('quizContainer').classList.add('hidden');
+            document.getElementById('quizResultCard').classList.remove('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            const totalQuestions = questionsList.length;
+            const percent = totalQuestions > 0 ? (correctAnswersCount / totalQuestions) * 100 : 0;
+            
+            let grade = 'يحتاج تدريب ⚠️';
+            if (percent >= 90) grade = 'ممتاز جداً 🌟';
+            else if (percent >= 70) grade = 'متقن 👏';
+
+            const keyName = `${currentClass}_${studentName}`;
+
+            let progressMap = {};
+            try {
+                progressMap = JSON.parse(localStorage.getItem('fs_bat_progress') || '{}');
+            } catch (e) {
+                progressMap = {};
+            }
+
+            if (!progressMap[keyName]) progressMap[keyName] = [];
+            if (percent >= 70 && !progressMap[keyName].includes(selectedTable)) {
+                progressMap[keyName].push(selectedTable);
+            }
+            try {
+                localStorage.setItem('fs_bat_progress', JSON.stringify(progressMap));
+            } catch (e) {}
+
+            const mastered = progressMap[keyName] || [selectedTable];
+            const bLevel = Math.min(100, Math.round((mastered.length / 10) * 100));
+
+            // إعداد واجهة النتائج والشهادة
+            document.getElementById('resultTitleText').textContent = studentGender === 'girl' ? 'ممتازة يا بطلة! 🎉' : 'ممتاز يا بطل! 🎉';
+            document.getElementById('finalScoreText').textContent = `${toAr(correctAnswersCount)} / ${toAr(totalQuestions)}`;
+            document.getElementById('finalGradeBadge').textContent = grade;
+            
+            // التمييز بين الشهادة الاعتيادية وشهادة شحن البطارية الكاملة (100%)
+            const stdCert = document.getElementById('certificateContainer');
+            const fullCert = document.getElementById('fullBatteryCertContainer');
+
+            if (bLevel >= 100) {
+                // إظهار الشهادة الذهبية الفاخرة لاكتمال البطارية
+                stdCert.classList.add('hidden');
+                fullCert.classList.remove('hidden');
+
+                document.getElementById('fullCertStudentName').textContent = `${studentGender === 'girl' ? 'البطلة' : 'البطل'}: ${studentName} (فصل ${currentClass})`;
+                document.getElementById('fullCertMessageBody').textContent = `تتقدم المعلمة فاطمة شنيمر بخالص الفخر والاعتزاز للـ${studentGender === 'girl' ? 'طالبة المبدعة' : 'طالب المبدع'} على هذا الإنجاز الاستثنائي بإتقان كافة جداول الضرب وشحن البطارية كاملة بنسبة ١٠٠٪ 🎉!`;
+            } else {
+                // إظهار الشهادة القياسية للاختبار الحاضر
+                fullCert.classList.add('hidden');
+                stdCert.classList.remove('hidden');
+
+                document.getElementById('certStudentName').textContent = `${studentName} (فصل ${currentClass})`;
+                document.getElementById('certMessageBody').textContent = `نظير ${studentGender === 'girl' ? 'تميزها العالي واجتيازها' : 'تميزه العالي واجتيازه'} اختبار جدول (${toAr(selectedTable)}) بدرجة (${toAr(correctAnswersCount)} / ${toAr(totalQuestions)}).`;
+            }
+
+            // تحديث بطارية الشحن
+            const segMap = { '0': 'seg-0', '1': 'seg-0', '2': 'seg-2', '3': 'seg-3', '4': 'seg-4', '5': 'seg-5', '6': 'seg-6', '7': 'seg-7', '8': 'seg-8', '9': 'seg-9', '10': 'seg-10' };
+            document.querySelectorAll('.battery-seg').forEach(s => s.classList.remove('active'));
+            mastered.forEach(t => {
+                const id = segMap[t.toString()];
+                if (id && document.getElementById(id)) document.getElementById(id).classList.add('active');
+            });
+            document.getElementById('batteryPercentText').textContent = `${toAr(bLevel)}٪`;
+        }
+
+        function resetQuiz() {
+            document.getElementById('quizResultCard').classList.add('hidden');
+            document.getElementById('studentSetupCard').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onload = function() {
+            initStudentButtons();
+        };
+    </script>
+</body>
+</html>
